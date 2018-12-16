@@ -1,9 +1,7 @@
-const host = 'http://192.168.15.100/casainteligente/web/';
-const api = 'php/';
-const init = function () {
-    Project.navigate('control');
-};
-
+/**
+ * Version 18.12.16
+ */
+require('./_project.js');
 const Project = {
     init: init,
     load: function () {

@@ -12,7 +12,7 @@ module.exports = {
             {test: /jquery\.js$/, loader: 'expose-loader?jQuery!expose-loader?$'},
             {test: /mustache\.js$/, loader: 'expose-loader?Mustache'},
             {test: /toastr\.js$/, loader: 'expose-loader?toastr'},
-            {test: /project\.js$/, loader: 'expose-loader?Project'},
+            {test: /init\.js$/, loader: 'expose-loader?Project'},
 
             {test: /\.(gif|png|jpg|svg|cur)$/, loader: 'file-loader?name=img/[name].[ext]'},
             {test: /\.css$/, loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader'})},

@@ -2,5 +2,5 @@ require('bootstrap');
 require('mustache');
 require('toastr');
 
-require('./js/project');
+require('./js/init');
 require('./index.scss');

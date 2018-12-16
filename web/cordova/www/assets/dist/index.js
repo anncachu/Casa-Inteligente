@@ -215,7 +215,7 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n__webpack_require__(/*! mustache */ \"./node_modules/mustache/mustache.js-exposed\");\n__webpack_require__(/*! toastr */ \"./node_modules/toastr/toastr.js-exposed\");\n\n__webpack_require__(/*! ./js/project */ \"./src/js/project.js-exposed\");\n__webpack_require__(/*! ./index.scss */ \"./src/index.scss\");\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n__webpack_require__(/*! mustache */ \"./node_modules/mustache/mustache.js-exposed\");\n__webpack_require__(/*! toastr */ \"./node_modules/toastr/toastr.js-exposed\");\n\n__webpack_require__(/*! ./js/init */ \"./src/js/init.js-exposed\");\n__webpack_require__(/*! ./index.scss */ \"./src/index.scss\");\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
@@ -230,25 +230,36 @@ eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./sr
 
 /***/ }),
 
-/***/ "./src/js/project.js":
-/*!***************************!*\
-  !*** ./src/js/project.js ***!
-  \***************************/
+/***/ "./src/js/_project.js":
+/*!****************************!*\
+  !*** ./src/js/_project.js ***!
+  \****************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("const host = 'http://192.168.15.100/casainteligente/web/';\nconst api = 'php/';\nconst init = function () {\n    Project.navigate('control');\n};\n\nconst Project = {\n    init: init,\n    load: function () {\n        Project.host = localStorage.getItem('host') || host;\n        Project.url = Project.host + api;\n        $(\"form\").on('submit', event => {\n            const $this = $(event.currentTarget);\n            event.preventDefault();\n            Project.request($this.data('action'), $this.serializeArray(), 'POST').done(data => {\n                if (typeof data.response === 'string') {\n                    alert(data.response);\n                }\n                Project.navigate($this.data('redirect'), data);\n            });\n        });\n    },\n    navigate: function (file, data) {\n        return $.get('pages/' + file + \".html\", function (template) {\n            const rendered = Mustache.render(template, data || {});\n            $(\".app\").html(rendered);\n            Project.setCookie('page', file, 1);\n            Project.load();\n        }, 'html');\n    },\n    request: function (uri, data, method) {\n        if (!uri) return;\n        return $.ajax(Project.url + uri, {\n            method: method || 'GET',\n            dataType: 'json',\n            data: data,\n            error: response => {\n                let message;\n                if (response.responseJSON) {\n                    const result = response.responseJSON;\n                    switch (result.code) {\n                        case 500:\n                            console.error(result.error.message);\n                            break;\n                        case 400:\n                            alert(result.error.message);\n                            return;\n                        default:\n                            console.error(result);\n                            break;\n                    }\n                } else if (response.responseText) {\n                    console.error(`${Project.url} ${response.responseText}`);\n                }\n                if (response.statusText === \"error\") {\n                    console.log(response);\n                    message = \"Can't reach server.\";\n\n                } else {\n                    message = 'An error ocurred.';\n                }\n                Project.toast({message: message, type: 'error', duration: 2000});\n            }\n        });\n    },\n    setCookie: function (name, value, days) {\n        var expires = \"\";\n        if (days) {\n            var date = new Date();\n            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));\n            expires = \"; expires=\" + date.toUTCString();\n        }\n        document.cookie = name + \"=\" + (value || \"\") + expires + \"; path=/\";\n    },\n    getCookie: function (name) {\n        var nameEQ = name + \"=\";\n        var ca = document.cookie.split(';');\n        for (var i = 0; i < ca.length; i++) {\n            var c = ca[i];\n            while (c.charAt(0) == ' ') c = c.substring(1, c.length);\n            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);\n        }\n        return null;\n    },\n    toast: function (options) {\n        if (!options.type) options.type = \"info\";\n        toastr[options.type](options.message, options.title, {timeOut: options.duration})\n    }\n};\nmodule.exports = Project;\n\n//# sourceURL=webpack:///./src/js/project.js?");
+eval("host = 'http://192.168.15.100/casainteligente/web/';\napi = 'php/';\ninit = function () {\n    Project.navigate('control');\n};\n\n//# sourceURL=webpack:///./src/js/_project.js?");
 
 /***/ }),
 
-/***/ "./src/js/project.js-exposed":
-/*!***********************************!*\
-  !*** ./src/js/project.js-exposed ***!
-  \***********************************/
+/***/ "./src/js/init.js":
+/*!************************!*\
+  !*** ./src/js/init.js ***!
+  \************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("/* WEBPACK VAR INJECTION */(function(global) {module.exports = global[\"Project\"] = __webpack_require__(/*! -!./project.js */ \"./src/js/project.js\");\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/global.js */ \"./node_modules/webpack/buildin/global.js\")))\n\n//# sourceURL=webpack:///./src/js/project.js-exposed?");
+eval("/**\n * Version 18.12.16\n */\n__webpack_require__(/*! ./_project.js */ \"./src/js/_project.js\");\nconst Project = {\n    init: init,\n    load: function () {\n        Project.host = localStorage.getItem('host') || host;\n        Project.url = Project.host + api;\n        $(\"form\").on('submit', event => {\n            const $this = $(event.currentTarget);\n            event.preventDefault();\n            Project.request($this.data('action'), $this.serializeArray(), 'POST').done(data => {\n                if (typeof data.response === 'string') {\n                    alert(data.response);\n                }\n                Project.navigate($this.data('redirect'), data);\n            });\n        });\n    },\n    navigate: function (file, data) {\n        return $.get('pages/' + file + \".html\", function (template) {\n            const rendered = Mustache.render(template, data || {});\n            $(\".app\").html(rendered);\n            Project.setCookie('page', file, 1);\n            Project.load();\n        }, 'html');\n    },\n    request: function (uri, data, method) {\n        if (!uri) return;\n        return $.ajax(Project.url + uri, {\n            method: method || 'GET',\n            dataType: 'json',\n            data: data,\n            error: response => {\n                let message;\n                if (response.responseJSON) {\n                    const result = response.responseJSON;\n                    switch (result.code) {\n                        case 500:\n                            console.error(result.error.message);\n                            break;\n                        case 400:\n                            alert(result.error.message);\n                            return;\n                        default:\n                            console.error(result);\n                            break;\n                    }\n                } else if (response.responseText) {\n                    console.error(`${Project.url} ${response.responseText}`);\n                }\n                if (response.statusText === \"error\") {\n                    console.log(response);\n                    message = \"Can't reach server.\";\n\n                } else {\n                    message = 'An error ocurred.';\n                }\n                Project.toast({message: message, type: 'error', duration: 2000});\n            }\n        });\n    },\n    setCookie: function (name, value, days) {\n        var expires = \"\";\n        if (days) {\n            var date = new Date();\n            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));\n            expires = \"; expires=\" + date.toUTCString();\n        }\n        document.cookie = name + \"=\" + (value || \"\") + expires + \"; path=/\";\n    },\n    getCookie: function (name) {\n        var nameEQ = name + \"=\";\n        var ca = document.cookie.split(';');\n        for (var i = 0; i < ca.length; i++) {\n            var c = ca[i];\n            while (c.charAt(0) == ' ') c = c.substring(1, c.length);\n            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);\n        }\n        return null;\n    },\n    toast: function (options) {\n        if (!options.type) options.type = \"info\";\n        toastr[options.type](options.message, options.title, {timeOut: options.duration})\n    }\n};\nmodule.exports = Project;\n\n//# sourceURL=webpack:///./src/js/init.js?");
+
+/***/ }),
+
+/***/ "./src/js/init.js-exposed":
+/*!********************************!*\
+  !*** ./src/js/init.js-exposed ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("/* WEBPACK VAR INJECTION */(function(global) {module.exports = global[\"Project\"] = __webpack_require__(/*! -!./init.js */ \"./src/js/init.js\");\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/global.js */ \"./node_modules/webpack/buildin/global.js\")))\n\n//# sourceURL=webpack:///./src/js/init.js-exposed?");
 
 /***/ })
 
