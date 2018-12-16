@@ -1,7 +1,6 @@
 /**
  * Version 18.12.16
  */
-require('./_project.js');
 const Project = {
     init: init,
     load: function () {
