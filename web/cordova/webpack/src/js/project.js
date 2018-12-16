@@ -1,4 +1,4 @@
-const host = 'http://localhost/casainteligente/web/api/';
+const host = 'http://localhost/casainteligente/web/';
 const init = function () {
     Project.navigate('control');
 };
@@ -28,6 +28,7 @@ const Project = {
         }, 'html');
     },
     request: function (uri, data, method) {
+        if (!uri) return;
         return $.ajax(Project.url + uri, {
             method: method || 'GET',
             dataType: 'json',
@@ -71,6 +72,11 @@ const Project = {
             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
+    },
+    toast: function (options) {
+        if (!options.type) options.type = "info";
+        console.log(options);
+        toastr[options.type](options.message, options.title, {timeOut: options.duration})
     }
 };
 module.exports = Project;
