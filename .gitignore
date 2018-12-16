@@ -1,0 +1,6 @@
+/web/api/.idea/
+/web/cordova/.idea/
+/web/cordova/platforms/
+/web/cordova/plugins/
+/web/cordova/node_modules/
+/web/www/.idea/
