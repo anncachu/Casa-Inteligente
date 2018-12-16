@@ -1,4 +1,5 @@
 const host = 'http://localhost/casainteligente/web/';
+const api = 'php/';
 const init = function () {
     Project.navigate('control');
 };
@@ -7,7 +8,7 @@ const Project = {
     init: init,
     load: function () {
         Project.host = localStorage.getItem('host') || host;
-        Project.url = Project.host + 'api/';
+        Project.url = Project.host + api;
         $("form").on('submit', event => {
             const $this = $(event.currentTarget);
             event.preventDefault();
@@ -75,7 +76,6 @@ const Project = {
     },
     toast: function (options) {
         if (!options.type) options.type = "info";
-        console.log(options);
         toastr[options.type](options.message, options.title, {timeOut: options.duration})
     }
 };
