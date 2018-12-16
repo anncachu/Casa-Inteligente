@@ -4,3 +4,4 @@
 /web/cordova/plugins/
 /web/cordova/node_modules/
 /web/www/.idea/
+/web/cordova/webpack/node_modules/
