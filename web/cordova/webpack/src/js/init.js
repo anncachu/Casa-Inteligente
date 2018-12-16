@@ -1,9 +1,6 @@
-const host = 'http://localhost/casainteligente/web/';
-const api = 'php/';
-const init = function () {
-    Project.navigate('control');
-};
-
+/**
+ * Version 18.12.16
+ */
 const Project = {
     init: init,
     load: function () {
@@ -35,6 +32,7 @@ const Project = {
             dataType: 'json',
             data: data,
             error: response => {
+                let message;
                 if (response.responseJSON) {
                     const result = response.responseJSON;
                     switch (result.code) {
@@ -51,7 +49,14 @@ const Project = {
                 } else if (response.responseText) {
                     console.error(`${Project.url} ${response.responseText}`);
                 }
-                alert('An error ocurred.');
+                if (response.statusText === "error") {
+                    console.log(response);
+                    message = "Can't reach server.";
+
+                } else {
+                    message = 'An error ocurred.';
+                }
+                Project.toast({message: message, type: 'error', duration: 2000});
             }
         });
     },
