@@ -1,0 +1,17 @@
+{
+  "name": "com.phonegap.helloworld",
+  "version": "1.0.0",
+  "displayName": "helloworld",
+  "cordova": {
+    "platforms": [
+      "browser"
+    ],
+    "plugins": {
+      "cordova-plugin-inappbrowser": {}
+    }
+  },
+  "dependencies": {
+    "cordova-browser": "^5.0.4",
+    "cordova-plugin-inappbrowser": "~1.7.1"
+  }
+}

@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !casainteligente/web/www/ [NC]
+RewriteCond %{REQUEST_URI} !casainteligente/web/php/ [NC]
+RewriteBase /casainteligente/web/
+RewriteRule (.*) www/$1 [L,QSA]
